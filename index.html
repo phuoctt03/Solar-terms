@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Tra Tiết Khí 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            text-align: center;
+            padding: 30px;
+            color: #2c3e50;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .seasons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+        
+        .season {
+            padding: 25px;
+            position: relative;
+        }
+        
+        .season.spring {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        .season.summer {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+        
+        .season.autumn {
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+        }
+        
+        .season.winter {
+            background: linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%);
+        }
+        
+        .season-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+        
+        .season-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        .solar-terms {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .solar-term {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .solar-term:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .spring .solar-term {
+            border-left-color: #27ae60;
+        }
+        
+        .summer .solar-term {
+            border-left-color: #e74c3c;
+        }
+        
+        .autumn .solar-term {
+            border-left-color: #f39c12;
+        }
+        
+        .winter .solar-term {
+            border-left-color: #3498db;
+        }
+        
+        .term-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .term-date {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+        
+        .term-desc {
+            font-size: 0.9rem;
+            color: #34495e;
+            line-height: 1.4;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .solar-term.active {
+            background: rgba(255,255,255,1);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .detailed-info {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(52, 73, 94, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .detailed-info.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .weather-details {
+            margin-bottom: 10px;
+        }
+        
+        .weather-label {
+            font-weight: bold;
+            color: #2c3e50;
+            display: inline-block;
+            min-width: 80px;
+        }
+        
+        .weather-value {
+            color: #34495e;
+        }
+        
+        .click-hint {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .seasons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .season-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌸 BẢNG TRA TIẾT KHÍ 2025 🌸</h1>
+            <p>24 Tiết Khí Âm Lịch - Truyền Thống Văn Hóa Phương Đông</p>
+        </div>
+        
+        <div class="seasons-grid">
+            <!-- MÙA XUÂN -->
+            <div class="season spring">
+                <div class="season-title">
+                    <span class="season-icon">🌱</span>MÙA XUÂN
+                </div>
+                <div class="solar-terms">
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Lập Xuân</div>
+                        <div class="term-date">04/02/2025</div>
+                        <div class="term-desc">Bắt đầu mùa xuân, vạn vật hồi sinh</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">10-15°C, ấm dần lên</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Ẩm ướt, mưa phùn nhẹ</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Cây cối nảy lộc, hoa đào nở</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Chuẩn bị đất, gieo trồng cây màu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Vũ Thủy</div>
+                        <div class="term-date">19/02/2025</div>
+                        <div class="term-desc">Mưa xuân nhiều hơn, băng tuyết tan</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">12-18°C, không khí ấm áp</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Mưa nhiều, độ ẩm cao</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Cỏ cây xanh mướt, chim hót</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Tưới tiêu, chăm sóc cây trồng</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Kinh Trập</div>
+                        <div class="term-date">05/03/2025</div>
+                        <div class="term-desc">Sấm sét đánh thức côn trùng</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">15-20°C, ấm áp dễ chịu</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Có sấm chớp, mưa rào</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Côn trùng tỉnh giấc, ếch nhái kêu</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Phòng trừ sâu bệnh, bón phân</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Xuân Phân</div>
+                        <div class="term-date">20/03/2025</div>
+                        <div class="term-desc">Ngày đêm dài bằng nhau</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">18-22°C, ôn hòa</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Ít mưa, nắng ấm</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Hoa nở rộ, chim én về</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Trồng lúa mùa, chăm sóc vườn tược</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Thanh Minh</div>
+                        <div class="term-date">04/04/2025</div>
+                        <div class="term-desc">Tiết trời trong lành, tảo mộ</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">20-25°C, dễ chịu</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Quang đãng, không khí trong lành</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Lá xanh tươi, hoa đủ màu</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Gieo cấy, trồng rau màu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Cốc Vũ</div>
+                        <div class="term-date">20/04/2025</div>
+                        <div class="term-desc">Mưa tốt cho mùa màng</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">22-27°C, bắt đầu nóng</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Mưa thuận lợi cho cây trồng</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Lúa non xanh mướt</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Cấy lúa, làm cỏ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MÙA HẠ -->
+            <div class="season summer">
+                <div class="season-title">
+                    <span class="season-icon">☀️</span>MÙA HẠ
+                </div>
+                <div class="solar-terms">
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Lập Hạ</div>
+                        <div class="term-date">05/05/2025</div>
+                        <div class="term-desc">Bắt đầu mùa hè, nhiệt độ tăng</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">25-30°C, nóng lên đáng kể</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Mưa dông thường xuyên</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Cây cối tươi tốt, hoa mùa hè nở</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Chăm sóc lúa, trồng rau hè</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Tiểu Mãn</div>
+                        <div class="term-date">21/05/2025</div>
+                        <div class="term-desc">Hạt lúa bắt đầu căng tròn</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">27-32°C, nóng ẩm</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Mưa nhiều, độ ẩm cao</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Lúa trổ bông, hạt căng tròn</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Phòng trừ sâu bệnh lúa</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Mang Chủng</div>
+                        <div class="term-date">05/06/2025</div>
+                        <div class="term-desc">Thời gian gieo trồng lúa</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">28-33°C, nóng bức</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Mùa mưa bắt đầu</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Mận chín, lúa gần thu hoạch</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Chuẩn bị thu hoạch lúa mùa</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Hạ Chí</div>
+                        <div class="term-date">21/06/2025</div>
+                        <div class="term-desc">Ngày dài nhất trong năm</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">30-35°C, đỉnh điểm nóng</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Nắng gắt, có thể có bão</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Ngày dài 13-14 tiếng</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Thu hoạch lúa, tưới tiêu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Tiểu Thử</div>
+                        <div class="term-date">07/07/2025</div>
+                        <div class="term-desc">Bắt đầu nóng nhẹ</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">32-37°C, nóng nực</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Ít mưa, nắng gay gắt</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Cây héo úa, động vật tìm bóng mát</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Tưới nước, chống nắng cho cây</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Đại Thử</div>
+                        <div class="term-date">23/07/2025</div>
+                        <div class="term-desc">Thời gian nóng nhất năm</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">35-40°C, cực kỳ nóng</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Khô hạn, nắng như đổ lửa</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Thời gian nóng nhất, cây cối khô héo</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Tưới nhiều nước, bảo vệ cây trồng</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MÙA THU -->
+            <div class="season autumn">
+                <div class="season-title">
+                    <span class="season-icon">🍂</span>MÙA THU
+                </div>
+                <div class="solar-terms">
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Lập Thu</div>
+                        <div class="term-date">07/08/2025</div>
+                        <div class="term-desc">Bắt đầu mùa thu, se lạnh</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">28-33°C, bắt đầu mát hơn</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Mưa dông chiều, gió mát</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Lá bắt đầu vàng, tiết trời se lạnh</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Thu hoạch lúa mùa, gieo trồng rau đông</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Xử Thử</div>
+                        <div class="term-date">23/08/2025</div>
+                        <div class="term-desc">Hết nóng, tiết trời mát mẻ</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">25-30°C, dễ chịu hơn</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Mưa ít dần, không khí khô ráo</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Nắng nhẹ, gió mát, lá úa</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Chuẩn bị đất cho vụ đông</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Bạch Lộ</div>
+                        <div class="term-date">07/09/2025</div>
+                        <div class="term-desc">Sương trắng xuất hiện</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">22-27°C, mát mẻ dễ chịu</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Sương sớm, không khí trong lành</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Sương trắng phủ cỏ, lá vàng rụng</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Gieo trồng rau màu mùa đông</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Thu Phân</div>
+                        <div class="term-date">23/09/2025</div>
+                        <div class="term-desc">Ngày đêm dài bằng nhau</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">20-25°C, ôn hòa</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Ít mưa, nắng nhẹ</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Ngày đêm bằng nhau, lá chuyển màu</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Thu hoạch lúa, chuẩn bị vụ đông</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Hàn Lộ</div>
+                        <div class="term-date">08/10/2025</div>
+                        <div class="term-desc">Sương lạnh, lá vàng rụng</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">18-23°C, se lạnh</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Sương lạnh, gió mùa đông bắc</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Lá vàng rụng nhiều, hoa úa</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Trồng rau củ, chuẩn bị mùa đông</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Sương Giáng</div>
+                        <div class="term-date">23/10/2025</div>
+                        <div class="term-desc">Sương giá đầu mùa</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">15-20°C, lạnh hơn</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Sương giá đầu mùa, khô ráo</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Cây cối héo úa, động vật chuẩn bị đông</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Thu hoạch cuối mùa, bảo quản nông sản</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MÙA ĐÔNG -->
+            <div class="season winter">
+                <div class="season-title">
+                    <span class="season-icon">❄️</span>MÙA ĐÔNG
+                </div>
+                <div class="solar-terms">
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Lập Đông</div>
+                        <div class="term-date">07/11/2025</div>
+                        <div class="term-desc">Bắt đầu mùa đông</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">12-18°C, lạnh dần</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Gió lạnh, ít mưa</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Cây trụi lá, động vật ngủ đông</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Bảo quản lương thực, chăm sóc gia súc</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Tiểu Tuyết</div>
+                        <div class="term-date">22/11/2025</div>
+                        <div class="term-desc">Tuyết nhẹ bắt đầu rơi</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">8-15°C, lạnh rõ rệt</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Tuyết nhẹ ở vùng cao, sương muối</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Cảnh vật ảm đạm, cây khô héo</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Chăm sóc gia súc, sửa chữa nhà cửa</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Đại Tuyết</div>
+                        <div class="term-date">07/12/2025</div>
+                        <div class="term-desc">Tuyết rơi nhiều hơn</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">5-12°C, rất lạnh</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Tuyết rơi dày, băng giá</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Mặt đất phủ tuyết trắng</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Bảo vệ cây trồng khỏi rét</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Đông Chí</div>
+                        <div class="term-date">21/12/2025</div>
+                        <div class="term-desc">Ngày ngắn nhất trong năm</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">3-10°C, cực lạnh</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Khô lạnh, gió mùa đông bắc</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Ngày ngắn 10-11 tiếng</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Nghỉ ngơi, lên kế hoạch năm mới</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Tiểu Hàn</div>
+                        <div class="term-date">05/01/2026</div>
+                        <div class="term-desc">Bắt đầu lạnh nhẹ</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">2-8°C, rét đậm</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Rét hại, sương muối dày</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Băng tuyết, cây cối khô cằn</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Chống rét cho cây trồng, gia súc</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="solar-term" onclick="toggleDetails(this)">
+                        <div class="term-name">Đại Hàn</div>
+                        <div class="term-date">20/01/2026</div>
+                        <div class="term-desc">Thời gian lạnh nhất năm</div>
+                        <div class="click-hint">👆 Click để xem chi tiết</div>
+                        <div class="detailed-info">
+                            <div class="weather-details">
+                                <span class="weather-label">🌡️ Nhiệt độ:</span>
+                                <span class="weather-value">0-5°C, lạnh cực điểm</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌧️ Thời tiết:</span>
+                                <span class="weather-value">Rét hại, băng giá dày</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">🌱 Tự nhiên:</span>
+                                <span class="weather-value">Thời gian lạnh nhất, mọi sinh vật ngủ đông</span>
+                            </div>
+                            <div class="weather-details">
+                                <span class="weather-label">👨‍🌾 Nông nghiệp:</span>
+                                <span class="weather-value">Giữ ấm, chuẩn bị Tết Nguyên Đán</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🌙 Dựa theo lịch âm truyền thống • 24 Tiết Khí phản ánh chu kỳ tự nhiên và nông nghiệp 🌙</p>
+        </div>
+    </div>
+</body>
+<script>
+        function toggleDetails(element) {
+            // Đóng tất cả các chi tiết khác
+            const allTerms = document.querySelectorAll('.solar-term');
+            allTerms.forEach(term => {
+                if (term !== element) {
+                    term.classList.remove('active');
+                    const detailInfo = term.querySelector('.detailed-info');
+                    if (detailInfo) {
+                        detailInfo.classList.remove('show');
+                    }
+                }
+            });
+            
+            // Toggle chi tiết của phần tử được click
+            element.classList.toggle('active');
+            const detailInfo = element.querySelector('.detailed-info');
+            if (detailInfo) {
+                detailInfo.classList.toggle('show');
+            }
+        }
+        
+        // Thêm hiệu ứng hover
+        document.querySelectorAll('.solar-term').forEach(term => {
+            term.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            term.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+<!-- <script>
+    function toggleDetails(element) {
+        const details = element.querySelector('.detailed-info');
+        details.classList.toggle('show');
+    }
+</script>
+<script>
+    document.querySelectorAll('.solar-term').forEach(term => {
+        term.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
+</script> -->
+</html>
