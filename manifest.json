@@ -1,0 +1,15 @@
+{
+  "name": "Lịch Tiết Khí",
+  "short_name": "Tiết Khí",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#1DB954",
+  "icons": [
+    {
+      "src": "tietkhi.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
