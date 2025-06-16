@@ -878,6 +878,11 @@
             });
         });
     </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/audio/service-worker.js');
+        }
+      </script>
 <!-- <script>
     function toggleDetails(element) {
         const details = element.querySelector('.detailed-info');
